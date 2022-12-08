@@ -18,6 +18,8 @@ public class Raycaster : MonoBehaviour
     ObjectGrabable _objectGrabbable=null;
 
 
+  
+
     public delegate void ObjectPicked(Item item);
     public static ObjectPicked OnObjectPicked;
 
@@ -44,7 +46,7 @@ public class Raycaster : MonoBehaviour
             if (_objectGrabbable == null)
             {
                 RaycastHit hit;
-                Ray ray = new Ray(Camera.main.transform.position, Camera.main.transform.forward);
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
                 if (Physics.Raycast(ray, out hit, Mathf.Infinity, _interactableLayer))
                 {
 

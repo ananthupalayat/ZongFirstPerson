@@ -35,7 +35,12 @@ public class FirstPersonController : MonoBehaviour
 
     bool lockMovement = false;
 
-   
+    [SerializeField]
+    Joystick _movementJoystick;
+
+    [SerializeField]
+    Joystick _freelookJoystick;
+
 
     public void OnEnable()
     {
@@ -79,7 +84,7 @@ public class FirstPersonController : MonoBehaviour
         if (GameManager.Instance.Lock == true)
             return;
         _currentInput = new Vector2(
-            _walkSpeed * Input.GetAxis("Vertical"), _walkSpeed * Input.GetAxis("Horizontal"));
+            _walkSpeed * _movementJoystick.Vertical, _walkSpeed * _movementJoystick.Horizontal);
 
         float moveDirectionY = _moveDirection.y;
         _moveDirection = (transform.TransformDirection
@@ -91,10 +96,10 @@ public class FirstPersonController : MonoBehaviour
     {
         if (GameManager.Instance.Lock == true)
             return;
-        _rotationX -= Input.GetAxis("Mouse Y") * _lookSpeedY;
+        _rotationX -= _freelookJoystick.Vertical * _lookSpeedY;
         _rotationX = Mathf.Clamp(_rotationX, -_upperLookLimit, _lowerLookLimit);
         _playerCamera.transform.localRotation = Quaternion.Euler(_rotationX, 0, 0);
-        transform.rotation *= Quaternion.Euler(0, Input.GetAxis("Mouse X") * _lookSpeedX, 0);
+        transform.rotation *= Quaternion.Euler(0, _freelookJoystick.Horizontal * _lookSpeedX, 0);
     }
 
     private void ApplyFinalMovements()
